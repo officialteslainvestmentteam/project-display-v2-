@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Display Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 440px;
+            width: 100%;
+            background-color: #121212;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .content-box {
+            background-color: #1c1c1e;
+            border-left: 4px solid #0084d6;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* Image Placeholder Style */
+        .display-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Button Layout and State Styling */
+        .action-button {
+            display: inline-block;
+            width: 100%;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background-color: #2ea44f; /* Initial Green */
+        }
+        
+        .progress-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background-color: #1f7a34; /* Progress Fill color */
+            z-index: 1;
+        }
+
+        .button-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .state-completed {
+            background-color: #0084d6 !important; /* Final Blue */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="content-box">
+            <h2>Item Overview</h2>
+            <p>Review the details below regarding the designated package configuration and processing options.</p>
+        </div>
+
+        <!-- IMAGE PLACEHOLDER: Replace the src attribute with your own image URL or filename later -->
+        <img class="display-image" src="https://via.placeholder.com/400x250" alt="Item Display Image">
+
+        <!-- Interactive State Button -->
+        <button id="actionBtn" class="action-button">
+            <div id="progressTrack" class="progress-track"></div>
+            <span id="btnText" class="button-text">Confirm Selection</span>
+        </button>
+    </div>
+
+    <script>
+        const button = document.getElementById('actionBtn');
+        const track = document.getElementById('progressTrack');
+        const btnText = document.getElementById('btnText');
+        let status = 'ready';
+
+        button.addEventListener('click', function() {
+            if (status === 'ready') {
+                status = 'processing';
+                let currentProgress = 0;
+                
+                // Incremental timer loop
+                const progressInterval = setInterval(() => {
+                    currentProgress += 1;
+                    if (currentProgress <= 100) {
+                        track.style.width = currentProgress + '%';
+                        btnText.innerText = `Processing... ${currentProgress}%`;
+                    } else {
+                        clearInterval(progressInterval);
+                        status = 'done';
+                        track.style.width = '0%'; // Reset track layer
+                        button.classList.add('state-completed');
+                        btnText.innerText = 'View Package';
+                    }
+                }, 40); // Controls the speed of the 1-100 crawl
+                
+            } else if (status === 'done') {
+                // Redirect target area
+                window.location.href = "https://example.com"; 
+            }
+        });
+    </script>
+
+</body>
+</html>
